@@ -22,11 +22,32 @@ A full-stack Documents Management System that allows users to view, add, and sea
 
 ## Prerequisites
 
-- Node.js >= 22
-- PostgreSQL running locally
-- npm
+- Docker & Docker Compose (recommended), OR
+- Node.js >= 22, PostgreSQL, and npm (for local development)
 
-## Setup
+## Quick Start with Docker
+
+The easiest way to run the entire application (frontend, backend, and database) in a single command:
+
+```bash
+git clone <repo-url>
+cd document-management-system
+npm run docker
+```
+
+This:
+- ✅ Initializes PostgreSQL inside the container
+- ✅ Runs database migrations
+- ✅ Applies database triggers (enforce folder-only parent constraint)
+- ✅ Seeds sample data
+- ✅ Starts backend on port 3001
+- ✅ Starts frontend on port 3000
+
+**Access the app at `http://localhost:3000`**
+
+---
+
+## Local Development Setup
 
 ### 1. Clone the repository
 
@@ -102,7 +123,26 @@ Frontend runs on http://localhost:3000
 
 ## Production Build
 
-### Backend
+### Docker (Recommended)
+
+Build and run the entire application in a single container:
+
+```bash
+npm run docker
+```
+
+This starts:
+- PostgreSQL database (initialized and seeded)
+- Backend API on port 3001
+- Frontend on port 3000
+
+**Access the app at `http://localhost:3000`**
+
+### Manual Build
+
+#### Manual Build
+
+#### Backend
 
 ```bash
 cd backend
@@ -114,19 +154,15 @@ This compiles TypeScript to `dist/` and optimizes for production.
 Start the backend server:
 
 ```bash
-# Set environment variables
 export NODE_ENV=production
 export DATABASE_URL="postgresql://user:password@host:5432/documents_db"
 export PORT=3001
 
-# Run migrations
 npx prisma migrate deploy
-
-# Start the server
 npm start
 ```
 
-### Frontend
+#### Frontend
 
 ```bash
 cd frontend
@@ -143,23 +179,6 @@ npm start
 ```
 
 Frontend runs on http://localhost:3000 by default.
-
-### Docker Production
-
-Build and run the entire application in a single container:
-
-```bash
-npm run docker
-```
-
-This:
-1. Initializes PostgreSQL inside the container
-2. Runs database migrations
-3. Applies database triggers
-4. Seeds sample data
-5. Starts both frontend (port 3000) and backend (port 3001)
-
-Access the app at `http://localhost:3000`.
 
 ## Running Tests
 
